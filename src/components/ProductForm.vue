@@ -90,7 +90,7 @@ interface Product {
   image: string
   status: 'active' | 'inactive'
   stock: number
-  category: string // ✅ Added category
+  category: string
 }
 
 interface Props {
@@ -104,23 +104,25 @@ const emit = defineEmits<{
   cancel: []
 }>()
 
-const defaultForm = {
+const defaultForm: Omit<Product, 'id'> = {
   name: '',
   description: '',
   price: 0,
   image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop',
-  status: 'active' as const,
+  status: 'active',
   stock: 0,
-  category: 'Electronics' // ✅ Added default category
+  category: 'Electronics'
 }
 
-const form = ref({ ...defaultForm })
+const form = ref<Omit<Product, 'id'>>({ ...defaultForm })
 
 const isEditing = computed(() => !!props.product)
 
 watch(() => props.product, (newProduct) => {
   if (newProduct) {
-    form.value = { ...newProduct }
+    // Remove id property when copying to form
+    const { id, ...productData } = newProduct
+    form.value = { ...productData }
   } else {
     form.value = { ...defaultForm }
   }
