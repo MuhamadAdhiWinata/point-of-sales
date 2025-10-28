@@ -15,7 +15,7 @@
             <td class="p-2">{{ r.name }}</td>
             <td class="p-2">{{ r.status }}</td>
             <td class="p-2">
-              <Button size="sm" @click="approveRequest(r)" variant="success">Approve</Button>
+              <Button size="sm" @click="approveRequest(r)" variant="destructive">Approve</Button>
               <Button size="sm" @click="rejectRequest(r)" variant="destructive">Reject</Button>
             </td>
           </tr>
