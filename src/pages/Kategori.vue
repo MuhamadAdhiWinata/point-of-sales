@@ -3,14 +3,14 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div class="space-y-1">
-        <h1 class="text-3xl font-bold tracking-tight">Manajemen User</h1>
+        <h1 class="text-3xl font-bold tracking-tight">Manajemen Kategori</h1>
         <p class="text-sm text-muted-foreground">
-          Kelola data pengguna sistem
+          Kelola data kategori produk
         </p>
       </div>
       <Button @click="openCreateDialog">
         <Plus class="w-4 h-4 mr-2" />
-        Tambah User
+        Tambah Kategori
       </Button>
     </div>
 
@@ -18,32 +18,32 @@
     <div class="grid gap-4 md:grid-cols-3">
       <Card>
         <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle class="text-sm font-medium">Total User</CardTitle>
-          <Users class="h-4 w-4 text-muted-foreground" />
+          <CardTitle class="text-sm font-medium">Total Kategori</CardTitle>
+          <FolderTree class="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div class="text-2xl font-bold">{{ users.length }}</div>
+          <div class="text-2xl font-bold">{{ kategoris.length }}</div>
         </CardContent>
       </Card>
       <Card>
         <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle class="text-sm font-medium">User Aktif</CardTitle>
-          <UserCheck class="h-4 w-4 text-muted-foreground" />
+          <CardTitle class="text-sm font-medium">Kategori Aktif</CardTitle>
+          <CheckCircle class="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div class="text-2xl font-bold">
-            {{ users.filter(u => u.status === 'AKTIF').length }}
+            {{ kategoris.filter(k => k.status === 'AKTIF').length }}
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle class="text-sm font-medium">Admin</CardTitle>
-          <Shield class="h-4 w-4 text-muted-foreground" />
+          <CardTitle class="text-sm font-medium">Kategori Nonaktif</CardTitle>
+          <XCircle class="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div class="text-2xl font-bold">
-            {{ users.filter(u => u.role === 'ADMIN').length }}
+            {{ kategoris.filter(k => k.status === 'NONAKTIF').length }}
           </div>
         </CardContent>
       </Card>
@@ -52,9 +52,9 @@
     <!-- Table Card -->
     <Card>
       <CardHeader>
-        <CardTitle>Daftar User</CardTitle>
+        <CardTitle>Daftar Kategori</CardTitle>
         <CardDescription>
-          Menampilkan {{ users.length }} pengguna terdaftar
+          Menampilkan {{ kategoris.length }} kategori terdaftar
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -65,15 +65,15 @@
         </div>
 
         <!-- Empty State -->
-        <div v-else-if="users.length === 0" class="flex flex-col items-center justify-center py-12 text-center">
-          <Users class="h-12 w-12 text-muted-foreground mb-4" />
-          <h3 class="text-lg font-semibold">Belum ada user</h3>
+        <div v-else-if="kategoris.length === 0" class="flex flex-col items-center justify-center py-12 text-center">
+          <FolderTree class="h-12 w-12 text-muted-foreground mb-4" />
+          <h3 class="text-lg font-semibold">Belum ada kategori</h3>
           <p class="text-sm text-muted-foreground mb-4">
-            Mulai dengan menambahkan user pertama
+            Mulai dengan menambahkan kategori pertama
           </p>
           <Button @click="openCreateDialog" variant="outline">
             <Plus class="w-4 h-4 mr-2" />
-            Tambah User
+            Tambah Kategori
           </Button>
         </div>
 
@@ -83,10 +83,7 @@
             <TableHeader>
               <TableRow>
                 <TableHead class="w-12">No</TableHead>
-                <TableHead>Nama</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>No HP</TableHead>
-                <TableHead>Role</TableHead>
+                <TableHead>Nama Kategori</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Created</TableHead>
                 <TableHead>Updated</TableHead>
@@ -94,40 +91,33 @@
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow v-for="(user, index) in users" :key="user.id">
+              <TableRow v-for="(kategori, index) in kategoris" :key="kategori.id">
                 <TableCell class="font-medium">{{ index + 1 }}</TableCell>
-                <TableCell class="font-medium">{{ user.nama }}</TableCell>
-                <TableCell>{{ user.email }}</TableCell>
-                <TableCell>{{ user.no_hp || '-' }}</TableCell>
+                <TableCell class="font-medium">{{ kategori.nama }}</TableCell>
                 <TableCell>
-                  <Badge :variant="user.role === 'ADMIN' ? 'default' : 'secondary'">
-                    {{ user.role }}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge :variant="user.status === 'AKTIF' ? 'default' : 'destructive'">
-                    {{ user.status }}
+                  <Badge :variant="kategori.status === 'AKTIF' ? 'default' : 'destructive'">
+                    {{ kategori.status }}
                   </Badge>
                 </TableCell>
                 <TableCell class="text-sm text-muted-foreground">
-                  {{ formatDate(user.created_at) }}
+                  {{ formatDate(kategori.created_at) }}
                 </TableCell>
                 <TableCell class="text-sm text-muted-foreground">
-                  {{ formatDate(user.updated_at) }}
+                  {{ formatDate(kategori.updated_at) }}
                 </TableCell>
-                <TableCell class="text-center">
+                <TableCell class="text-right">
                   <div class="flex items-center justify-center gap-2">
                     <Button 
                       variant="ghost" 
                       size="icon"
-                      @click="openEditDialog(user)"
+                      @click="openEditDialog(kategori)"
                     >
                       <Pencil class="h-4 w-4" />
                     </Button>
                     <Button 
                       variant="ghost" 
                       size="icon"
-                      @click="openDeleteDialog(user)"
+                      @click="openDeleteDialog(kategori)"
                     >
                       <Trash2 class="h-4 w-4 text-red-700" />
                     </Button>
@@ -142,19 +132,19 @@
 
     <!-- Create/Edit Dialog -->
     <Dialog v-model:open="isDialogOpen">
-      <DialogContent class="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+      <DialogContent class="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>
-            {{ isEditMode ? 'Edit User' : 'Tambah User Baru' }}
+            {{ isEditMode ? 'Edit Kategori' : 'Tambah Kategori Baru' }}
           </DialogTitle>
           <DialogDescription>
-            {{ isEditMode ? 'Ubah data user yang dipilih' : 'Tambahkan user baru ke dalam sistem' }}
+            {{ isEditMode ? 'Ubah data kategori yang dipilih' : 'Tambahkan kategori baru ke dalam sistem' }}
           </DialogDescription>
         </DialogHeader>
         
-        <UserForm
-          ref="userFormRef"
-          :user="selectedUser"
+        <KategoriForm
+          ref="kategoriFormRef"
+          :kategori="selectedKategori"
           :is-edit="isEditMode"
           @submit="handleFormSubmit"
         />
@@ -180,7 +170,7 @@
         <AlertDialogHeader>
           <AlertDialogTitle>Konfirmasi Hapus</AlertDialogTitle>
           <AlertDialogDescription>
-            Apakah Anda yakin ingin menghapus user <strong>{{ selectedUser?.nama }}</strong>?
+            Apakah Anda yakin ingin menghapus kategori <strong>{{ selectedKategori?.nama }}</strong>?
             <br />
             <span class="text-destructive font-medium mt-2 block">
               Tindakan ini tidak dapat dibatalkan.
@@ -209,12 +199,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { 
-  getUsers, 
-  createUser, 
-  updateUser, 
-  deleteUser, 
-  type IUser 
-} from '@/services/userService'
+  getKategoris, 
+  createKategori, 
+  updateKategori, 
+  deleteKategori, 
+  type IKategori 
+} from '@/services/kategoriService'
+
 
 // Shadcn Components
 import { Button } from '@/components/ui/button'
@@ -227,51 +218,55 @@ import {
   DialogHeader, 
   DialogTitle 
 } from '@/components/ui/dialog'
-import { Loader2, Plus, Pencil, Trash2, Users} from 'lucide-vue-next'
-import UserForm from '@/components/UserForm.vue'
-import Table from '@/components/ui/table/Table.vue'
-import TableHeader from '@/components/ui/table/TableHeader.vue'
-import TableRow from '@/components/ui/table/TableRow.vue'
-import TableHead from '@/components/ui/table/TableHead.vue'
-import TableBody from '@/components/ui/table/TableBody.vue'
-import TableCell from '@/components/ui/table/TableCell.vue'
-import Badge from '@/components/ui/badge/Badge.vue'
-import AlertDialog from '@/components/ui/alert-dialog/AlertDialog.vue'
-import AlertDialogContent from '@/components/ui/alert-dialog/AlertDialogContent.vue'
-import AlertDialogHeader from '@/components/ui/alert-dialog/AlertDialogHeader.vue'
-import AlertDialogTitle from '@/components/ui/alert-dialog/AlertDialogTitle.vue'
-import AlertDialogDescription from '@/components/ui/alert-dialog/AlertDialogDescription.vue'
-import AlertDialogFooter from '@/components/ui/alert-dialog/AlertDialogFooter.vue'
-import AlertDialogCancel from '@/components/ui/alert-dialog/AlertDialogCancel.vue'
-import AlertDialogAction from '@/components/ui/alert-dialog/AlertDialogAction.vue'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog/'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table/'
+import { Badge } from '@/components/ui/badge/'
+import { Loader2, Plus, Pencil, Trash2, FolderTree, CheckCircle, XCircle } from 'lucide-vue-next'
 import { useToast } from '@/hooks/use-toast.ts'
 import Toaster from '@/components/ui/Toaster.vue'
+import KategoriForm from '../components/KategoriForm.vue'
 
 // Composables
-const { toast } = useToast();
+const { toast } = useToast()
 
 // State
-const users = ref<IUser[]>([])
+const kategoris = ref<IKategori[]>([])
 const loading = ref(false)
 const isSubmitting = ref(false)
 const isDialogOpen = ref(false)
 const isDeleteDialogOpen = ref(false)
 const isEditMode = ref(false)
-const selectedUser = ref<IUser | null>(null)
-const userFormRef = ref<{ submit: () => void }>()
+const selectedKategori = ref<IKategori | null>(null)
+const kategoriFormRef = ref<{ submit: () => void }>()
 
-// Load users
-async function loadUsers() {
+// Load kategori
+async function loadKategoris() {
   loading.value = true
   try {
-    const response = await getUsers()
-    users.value = response.data || []
+    const response = await getKategoris()
+    kategoris.value = response.data || []
   } catch (error: any) {
-    console.error('Failed to load users:', error)
+    console.error('Failed to load kategoris:', error)
     toast({
       variant: 'destructive',
       title: 'Error',
-      description: 'Gagal memuat data user'
+      description: 'Gagal memuat data kategori'
     })
   } finally {
     loading.value = false
@@ -281,63 +276,57 @@ async function loadUsers() {
 // Dialog handlers
 function openCreateDialog() {
   isEditMode.value = false
-  selectedUser.value = null
+  selectedKategori.value = null
   isDialogOpen.value = true
 }
 
-function openEditDialog(user: IUser) {
+function openEditDialog(kategori: IKategori) {
   isEditMode.value = true
-  selectedUser.value = { ...user }
+  selectedKategori.value = { ...kategori }
   isDialogOpen.value = true
 }
 
 function closeDialog() {
   isDialogOpen.value = false
-  selectedUser.value = null
+  selectedKategori.value = null
 }
 
-function openDeleteDialog(user: IUser) {
-  selectedUser.value = user
+function openDeleteDialog(kategori: IKategori) {
+  selectedKategori.value = kategori
   isDeleteDialogOpen.value = true
 }
 
 function closeDeleteDialog() {
   isDeleteDialogOpen.value = false
-  selectedUser.value = null
+  selectedKategori.value = null
 }
 
 // Form submission handler
-async function handleFormSubmit(formData: IUser) {
+async function handleFormSubmit(formData: IKategori) {
   isSubmitting.value = true
   try {
-    if (isEditMode.value && selectedUser.value?.id) {
-      const updateData = { ...formData }
-      if (!updateData.password) {
-        const { password, ...dataWithoutPassword } = updateData
-        await updateUser(selectedUser.value.id, dataWithoutPassword)
-      } else {
-        await updateUser(selectedUser.value.id, updateData)
-      }
+    if (isEditMode.value && selectedKategori.value?.id) {
+      await updateKategori(selectedKategori.value.id, formData)
       toast({
         title: 'Berhasil',
-        description: 'User berhasil diupdate'
+        description: 'Kategori berhasil diupdate'
       })
     } else {
-      await createUser(formData)
+      await createKategori(formData)
       toast({
         title: 'Berhasil',
-        description: 'User berhasil ditambahkan'
+        description: 'Kategori berhasil ditambahkan'
       })
     }
     
     closeDialog()
-    await loadUsers()
+    await loadKategoris()
   } catch (error: any) {
-    console.error('Failed to save user:', error)
+    console.error('Failed to save kategori:', error)
     toast({
       variant: 'destructive',
       title: 'Error',
-      description: error.response?.data?.message || 'Gagal menyimpan user'
+      description: error.response?.data?.message || 'Gagal menyimpan kategori'
     })
   } finally {
     isSubmitting.value = false
@@ -346,30 +335,30 @@ async function handleFormSubmit(formData: IUser) {
 
 // Trigger form submission from parent
 function submitForm() {
-  if (userFormRef.value) {
-    userFormRef.value.submit()
+  if (kategoriFormRef.value) {
+    kategoriFormRef.value.submit()
   }
 }
 
-// Delete user
+// Delete kategori
 async function handleDelete() {
-  if (!selectedUser.value?.id) return
+  if (!selectedKategori.value?.id) return
 
   isSubmitting.value = true
   try {
-    await deleteUser(selectedUser.value.id)
+    await deleteKategori(selectedKategori.value.id)
     toast({
       title: 'Berhasil',
-      description: 'User berhasil dihapus'
+      description: 'Kategori berhasil dihapus'
     })
     closeDeleteDialog()
-    await loadUsers()
+    await loadKategoris()
   } catch (error: any) {
-    console.error('Failed to delete user:', error)
+    console.error('Failed to delete kategori:', error)
     toast({
       variant: 'destructive',
       title: 'Error',
-      description: error.response?.data?.message || 'Gagal menghapus user'
+      description: error.response?.data?.message || 'Gagal menghapus kategori'
     })
   } finally {
     isSubmitting.value = false
@@ -390,6 +379,6 @@ function formatDate(dateString?: string): string {
 
 // Lifecycle
 onMounted(() => {
-  loadUsers()
+  loadKategoris()
 })
 </script>

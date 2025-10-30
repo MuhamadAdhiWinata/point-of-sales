@@ -135,6 +135,7 @@ const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Products', href: '/products', icon: Package },
   { name: 'Approvals', href: '/approvals', icon: CheckSquare },
+  { name: 'Kategori', href: '/kategori', icon: BarChart3 },
   { name: 'User', href: '/user', icon: BarChart3 },
   { name: 'Settings', href: '/settings', icon: Settings },
 ]
