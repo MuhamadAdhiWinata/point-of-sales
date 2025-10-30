@@ -75,13 +75,10 @@
 <script setup lang="ts">
 import { 
   Bell, 
-  Search, 
   User, 
   ChevronDown, 
   Menu, 
   ChevronRight,
-  Sun,
-  Moon,
   Settings,
   LogOut,
   User as UserIcon
@@ -93,7 +90,6 @@ import Button from '@/components/ui/button/Button.vue'
 const route = useRoute()
 const isUserMenuOpen = ref(false)
 const userMenuRef = ref<HTMLElement>()
-const darkMode = ref(false)
 
 defineEmits<{
   toggleSidebar: []
@@ -112,16 +108,8 @@ const currentPage = computed(() => {
   return routeName.charAt(0).toUpperCase() + routeName.slice(1)
 })
 
-const themeIcon = computed(() => darkMode.value ? Sun : Moon)
-
 const toggleUserMenu = () => {
   isUserMenuOpen.value = !isUserMenuOpen.value
-}
-
-const toggleTheme = () => {
-  darkMode.value = !darkMode.value
-  // Implement theme switching logic here
-  document.documentElement.classList.toggle('dark', darkMode.value)
 }
 
 const handleUserMenuClick = (action: string) => {
