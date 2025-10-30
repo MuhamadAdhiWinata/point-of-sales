@@ -104,17 +104,6 @@
         </Select>
       </div>
     </div>
-
-    <!-- Error Summary -->
-    <Alert v-if="hasErrors" variant="destructive">
-      <AlertCircle class="h-4 w-4" />
-      <AlertTitle>Terdapat kesalahan pada form</AlertTitle>
-      <AlertDescription>
-        <ul class="list-disc list-inside mt-2">
-          <li v-for="(error, key) in errors" :key="key">{{ error }}</li>
-        </ul>
-      </AlertDescription>
-    </Alert>
   </form>
 </template>
 
@@ -131,8 +120,6 @@ import {
   SelectTrigger, 
   SelectValue 
 } from '@/components/ui/select'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { AlertCircle } from 'lucide-vue-next'
 
 interface Props {
   user?: IUser | null
