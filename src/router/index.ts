@@ -3,8 +3,12 @@ import Products from '@/pages/Product.vue'
 import Approvals from '@/pages/Approvals.vue'
 import User from '@/pages/User.vue'
 import Kategori from '@/pages/Kategori.vue'
+import Login from '@/pages/Login.vue'
+import Register from '../pages/Register.vue'
 
 const routes = [
+  { path: '/login', name: 'Login', component: Login},
+  { path: '/register', name: 'Register', component: Register},
   { path: '/dashboard', name: 'Dashboard', component: Products},
   { path: '/products', name: 'Products', component: Products },
   { path: '/approvals', name: 'Approvals', component: Approvals },
