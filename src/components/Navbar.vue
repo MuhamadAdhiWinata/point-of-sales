@@ -18,7 +18,6 @@
             to="/" 
             class="text-gray-500 hover:text-gray-700 transition-colors"
           >
-            Dashboard
           </router-link>
           <ChevronRight class="w-4 h-4 text-gray-400" />
           <span class="text-gray-900 font-medium">{{ currentPage }}</span>

@@ -60,10 +60,10 @@ import {
 import Button from '@/components/ui/button/Button.vue'
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Products', href: '/products', icon: Package },
   { name: 'Approvals', href: '/approvals', icon: CheckSquare },
-  { name: 'Sales', href: '/sales', icon: BarChart3 },
+  { name: 'User', href: '/user', icon: BarChart3 },
   { name: 'Settings', href: '/settings', icon: Settings },
 ]
 
